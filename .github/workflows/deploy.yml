@@ -10,30 +10,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Check out the repository
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # Step 2: Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '16'
 
-      # Step 3: Cache Node.js modules
-      - name: Cache Node.js modules
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
-      # Step 4: Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # Step 5: Deploy to cPanel (only backend folder)
+      # Debugging step: Check the directory structure
+      - name: List directory structure
+        run: |
+          ls -al
+          ls -al ./backend
+
+      # Step to create the target directory on the server (if it doesn't exist)
+      - name: Create backend directory on cPanel
+        run: |
+          ssh -o StrictHostKeyChecking=no cureojpg@$CPANEL_HOST "mkdir -p public_html/backend"
+
+      # Deploy to cPanel (only backend folder)
       - name: Deploy to cPanel (Backend Only)
         run: |
           sudo apt-get update
