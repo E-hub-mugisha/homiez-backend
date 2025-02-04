@@ -10,30 +10,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout repository
+      # Step 1: Checkout the main repository
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # Step 2: Set up Node.js
+      # Step 2: Clone the homiez-backend repository
+      - name: Clone homiez-backend repository
+        run: |
+          git clone https://github.com/your-username/homiez-backend.git
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Step 3: Set up Node.js (for backend project)
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '16'
 
-      # Step 3: Install dependencies
+      # Step 4: Install dependencies for the homiez-backend
       - name: Install dependencies
         run: |
           cd homiez-backend
           npm install
 
-      # Step 4: Build the project (if needed)
-      # If you have any build process for your backend, run it here
-      # Example: npm run build or any other build command.
-
       # Step 5: Debugging: List directory structure (Optional)
       - name: List directory structure
         run: |
-          ls -al
           ls -al homiez-backend
 
       # Step 6: Create target directory on cPanel (if not exists)
