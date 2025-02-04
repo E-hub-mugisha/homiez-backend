@@ -10,29 +10,38 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      # Step 2: Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '16'
 
+      # Step 3: Install dependencies
       - name: Install dependencies
-        run: npm install
+        run: |
+          cd homiez-backend
+          npm install
 
-      # Debugging step: Check the directory structure
+      # Step 4: Build the project (if needed)
+      # If you have any build process for your backend, run it here
+      # Example: npm run build or any other build command.
+
+      # Step 5: Debugging: List directory structure (Optional)
       - name: List directory structure
         run: |
           ls -al
-          ls -al ./backend
+          ls -al homiez-backend
 
-      # Step to create the target directory on the server (if it doesn't exist)
+      # Step 6: Create target directory on cPanel (if not exists)
       - name: Create backend directory on cPanel
         run: |
           ssh -o StrictHostKeyChecking=no cureojpg@$CPANEL_HOST "mkdir -p public_html/backend"
 
-      # Deploy to cPanel (only backend folder)
+      # Step 7: Deploy to cPanel (Only Backend Folder)
       - name: Deploy to cPanel (Backend Only)
         run: |
           sudo apt-get update
@@ -40,7 +49,7 @@ jobs:
           lftp -f "
           set ssl:verify-certificate no
           open ftp://$CPANEL_USER:$CPANEL_PASSWORD@$CPANEL_HOST
-          mirror -R ./backend /public_html/backend
+          mirror -R homiez-backend /public_html/backend
           quit
           "
         env:
