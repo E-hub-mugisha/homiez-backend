@@ -33,13 +33,7 @@ jobs:
           cd homiez-backend
           npm install
 
-      # Step 5: Build (Optional, if needed for backend)
-      - name: Build backend (if required)
-        run: |
-          cd homiez-backend
-          npm run build
-
-      # Step 6: Deploy to cPanel (Only Backend Folder)
+      # Step 5: Deploy to cPanel (Only Backend Folder)
       - name: Deploy to cPanel (Backend Only)
         run: |
           sudo apt-get update
