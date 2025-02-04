@@ -33,17 +33,13 @@ jobs:
           cd homiez-backend
           npm install
 
-      # Step 5: Debugging: List directory structure (Optional)
-      - name: List directory structure
+      # Step 5: Build (Optional, if needed for backend)
+      - name: Build backend (if required)
         run: |
-          ls -al homiez-backend
+          cd homiez-backend
+          npm run build
 
-      # Step 6: Create target directory on cPanel (if not exists)
-      - name: Create backend directory on cPanel
-        run: |
-          ssh -o StrictHostKeyChecking=no cureojpg@$CPANEL_HOST "mkdir -p public_html/backend"
-
-      # Step 7: Deploy to cPanel (Only Backend Folder)
+      # Step 6: Deploy to cPanel (Only Backend Folder)
       - name: Deploy to cPanel (Backend Only)
         run: |
           sudo apt-get update
