@@ -17,7 +17,7 @@ jobs:
       # Step 2: Clone the homiez-backend repository
       - name: Clone homiez-backend repository
         run: |
-          git clone https://github.com/your-username/homiez-backend.git
+          git clone https://github.com/E-hub-mugisha/homiez-backend.git
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
